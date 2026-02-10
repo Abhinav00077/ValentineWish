@@ -277,29 +277,23 @@ const animationTimeline = () => {
 
 // Import the data to customize and insert them into page
 const fetchData = () => {
-  fetch("customize.json")
+  return fetch("customize.json")
     .then((data) => data.json())
     .then((data) => {
-      Object.keys(data).map((customData) => {
+      Object.keys(data).forEach((customData) => {
         if (data[customData] !== "") {
-          if (customData === "imagePath") {
-            document
-              .getElementById(customData)
-              .setAttribute("src", data[customData]);
-          } else {
-            document.getElementById(customData).innerText = data[customData];
+          const el = document.getElementById(customData);
+          if (el) {
+            if (customData === "imagePath") {
+              el.setAttribute("src", data[customData]);
+            } else {
+              el.innerText = data[customData];
+            }
           }
         }
       });
     });
 };
 
-// Run fetch and animation in sequence
-const resolveFetch = () => {
-  return new Promise((resolve, reject) => {
-    fetchData();
-    resolve("Fetch done!");
-  });
-};
-
-resolveFetch().then(animationTimeline());
+// Run fetch first, then animation so custom name/greeting/wish show correctly
+fetchData().then(() => animationTimeline());
