@@ -10,6 +10,7 @@ body {
 .container {
   height: 100vh;
   width: 100vh;
+  max-width: 100vw;
   margin: 0 auto;
   text-align: center;
   visibility: hidden;
@@ -17,8 +18,21 @@ body {
   overflow: hidden;
 }
 
+/* Make container responsive for wider screens */
+@media screen and (min-width: 1025px) {
+  .container {
+    width: min(100vh, 100vw);
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    width: 100vw;
+  }
+}
+
 .container div.six {
-  top: 10vh;
+  top: 0;
   z-index: 1;
 }
 
@@ -113,13 +127,89 @@ body {
 }
 
 .six {
-  position: relative;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+  box-sizing: border-box;
+  overflow: visible;
 }
 
-.six img {
-  display: inline-block;
-  max-width: 45%;
-  height: auto;
+/* 3 images horizontal, same size, covering whole screen */
+.six-row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 70%;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2%;
+}
+
+.six-row img {
+  flex: 1;
+  width: 33.333%;
+  height: 100%;
+  max-height: 70vh;
+  object-fit: cover;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.six-row img:not(:last-child) {
+  border-right: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.six .wish {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.97);
+  padding: 1.2rem 2rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.8);
+  border: 3px solid rgba(199, 21, 133, 0.6);
+  max-width: 96%;
+  width: auto;
+  min-width: 250px;
+  max-height: 32vh;
+  overflow-y: auto;
+  text-align: center;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  transition: all 0.3s ease;
+}
+
+.six .wish-hbd {
+  color: #1a1a1a;
+  font-size: 1.75rem;
+  margin: 0 0 0.5rem;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+  white-space: nowrap;
+  line-height: 1.2;
+}
+
+.six .wish h5 {
+  color: #222;
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .six .hat {
@@ -233,7 +323,89 @@ body {
   cursor: pointer;
 }
 
-/* Media Queries */
+/* Media Queries - Responsive Design */
+
+/* Large tablets and small laptops (768px - 1024px) */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+  .six-row {
+    height: 68%;
+    margin-top: 1.5%;
+  }
+
+  .six-row img {
+    max-height: 68vh;
+  }
+
+  .six .wish {
+    padding: 1rem 1.75rem;
+    max-width: 94%;
+    min-width: 240px;
+  }
+
+  .six .wish-hbd {
+    font-size: 1.6rem;
+  }
+
+  .six .wish h5 {
+    font-size: 1.15rem;
+  }
+}
+
+/* Tablets (600px - 768px) */
+@media screen and (max-width: 768px) and (min-width: 601px) {
+  .six-row {
+    height: 66%;
+    margin-top: 1%;
+  }
+
+  .six-row img {
+    max-height: 66vh;
+  }
+
+  .six .wish {
+    padding: 0.9rem 1.5rem;
+    max-width: 93%;
+    min-width: 230px;
+    max-height: 30vh;
+  }
+
+  .six .wish-hbd {
+    font-size: 1.4rem;
+  }
+
+  .six .wish h5 {
+    font-size: 1.1rem;
+  }
+}
+
+/* Small tablets and large phones (481px - 600px) */
+@media screen and (max-width: 600px) and (min-width: 481px) {
+  .six-row {
+    height: 64%;
+    margin-top: 1%;
+  }
+
+  .six-row img {
+    max-height: 64vh;
+  }
+
+  .six .wish {
+    padding: 0.85rem 1.3rem;
+    max-width: 92%;
+    min-width: 210px;
+    max-height: 28vh;
+  }
+
+  .six .wish-hbd {
+    font-size: 1.25rem;
+  }
+
+  .six .wish h5 {
+    font-size: 1.05rem;
+  }
+}
+
+/* Height-based adjustments */
 @media screen and (max-height: 1000px) {
   .six .hat {
     left: 40%;
@@ -244,11 +416,32 @@ body {
   .six .hat {
     left: 37%;
   }
+
+  .six-row {
+    height: 65%;
+  }
+
+  .six-row img {
+    max-height: 65vh;
+  }
 }
 
 @media screen and (max-height: 700px) {
   .six .hat {
     left: 32%;
+  }
+
+  .six-row {
+    height: 62%;
+  }
+
+  .six-row img {
+    max-height: 62vh;
+  }
+
+  .six .wish {
+    max-height: 26vh;
+    padding: 0.8rem 1.2rem;
   }
 }
 
@@ -258,9 +451,10 @@ body {
   }
 }
 
+/* Mobile phones (up to 500px) */
 @media screen and (max-width: 500px) {
   .container {
-    width: 90%;
+    width: 100vw;
   }
 
   .four .text-box {
@@ -283,6 +477,91 @@ body {
   .six .hat {
     width: 50px;
     top: -20px;
+  }
+
+  .six-row {
+    height: 60%;
+    margin-top: 0.5%;
+    gap: 0;
+  }
+
+  .six-row img {
+    max-height: 60vh;
+    border-right-width: 1px;
+  }
+
+  .six .wish {
+    max-width: 95%;
+    min-width: 200px;
+    padding: 0.85rem 1.2rem;
+    bottom: 0.5rem;
+    max-height: 30vh;
+    border-width: 2px;
+  }
+
+  .six .wish-hbd {
+    font-size: 1.2rem;
+    line-height: 1.15;
+    margin-bottom: 0.35rem;
+    white-space: nowrap;
+  }
+
+  .six .wish h5 {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+}
+
+/* Very small phones (up to 360px) */
+@media screen and (max-width: 360px) {
+  .six-row {
+    height: 58%;
+  }
+
+  .six-row img {
+    max-height: 58vh;
+  }
+
+  .six .wish {
+    max-width: 96%;
+    min-width: 180px;
+    padding: 0.7rem 1rem;
+    max-height: 32vh;
+  }
+
+  .six .wish-hbd {
+    font-size: 1.1rem;
+  }
+
+  .six .wish h5 {
+    font-size: 0.95rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .six-row {
+    height: 75%;
+    margin-top: 0;
+  }
+
+  .six-row img {
+    max-height: 75vh;
+  }
+
+  .six .wish {
+    padding: 0.6rem 1rem;
+    max-height: 20vh;
+    bottom: 0.3rem;
+  }
+
+  .six .wish-hbd {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .six .wish h5 {
+    font-size: 0.9rem;
   }
 
   .wish-hbd {

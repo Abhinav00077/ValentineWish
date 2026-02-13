@@ -181,6 +181,7 @@ const animationTimeline = () => {
       },
       0.2
     )
+    .to(".six", 0.01, { opacity: 1, pointerEvents: "auto" })
     .from(
       ".girl-dp",
       0.5,
@@ -254,6 +255,7 @@ const animationTimeline = () => {
       opacity: 0,
       y: 30,
       zIndex: "-1",
+      pointerEvents: "none",
     })
     .staggerFrom(".nine p", 1, ideaTextTrans, 1.2)
     .to(
